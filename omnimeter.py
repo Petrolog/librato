@@ -101,7 +101,7 @@ librato_api = librato.connect(username='cesar@petrolog.us',
                               api_key='80d56cc6ce41b3234fa6d900660161ccf6f8e523519d3d636df839f3e4b44830')
 
 # Create Mosquitto Client object
-mqttc = mosquitto.Mosquitto("Omnimeter_Liberato_test")
+mqttc = mosquitto.Mosquitto("Omnimeter_Liberato")
 
 # Assign event callbacks
 mqttc.on_message = on_message
