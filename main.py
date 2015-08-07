@@ -15,9 +15,14 @@ import threading
 import logging
 import omnimeter
 
+# logging.basicConfig(format='%(asctime)s - [%(levelname)s]: %(message)s',
+#                     filename='/home/ec2-user/logs/librato.log',
+#                     level=logging.INFO)
+
 logging.basicConfig(format='%(asctime)s - [%(levelname)s]: %(message)s',
-                    filename='/home/ec2-user/logs/librato.log',
+                    filename='/Users/Cesar/logs/librato.log',
                     level=logging.INFO)
+
 
 apiClientDaemon = threading.Thread(target=omnimeter.apiClientDaemon)
 apiClientDaemon.daemon = True

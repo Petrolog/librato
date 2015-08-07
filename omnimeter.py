@@ -17,6 +17,8 @@ def upload_to_librato(msg):
     """
     # Get elements from mqtt:
     data = msg.payload.split(',')
+    topic = msg.topic.split('/')
+    device_id = topic[2]
     #   [0] omnimeter.total_kwh,
     #   [1] omnimeter.t1_kwh,
     #   [2] omnimeter.t2_kwh,
@@ -44,17 +46,17 @@ def upload_to_librato(msg):
     #   [24] omnimeter.date_time)
     try:
         q = librato_api.new_queue()
-        q.add('Total_kWh', float(int(data[0])/10.0))
-        q.add('Total_Rev_kWh', float(int(data[5])/10.0))
-        q.add('Voltage_L1', float(int(data[10])/10.0))
-        q.add('Voltage_L2', float(int(data[11])/10.0))
-        q.add('Voltage_L3', float(int(data[12])/10.0))
-        q.add('Amperage_L1', float(int(data[13])/10.0))
-        q.add('Amperage_L2', float(int(data[14])/10.0))
-        q.add('Amperage_L3', float(int(data[15])/10.0))
-        q.add('Total_Power', float(int(data[19])/10.0))
-        q.add('Cos_L1', float(int(data[20])/100.0))
-        q.add('Cos_L2', float(int(data[21])/100.0))
+        q.add('Total_kWh', float(int(data[0])/10.0), source=device_id)
+        q.add('Total_Rev_kWh', float(int(data[5])/10.0), source=device_id)
+        q.add('Voltage_L1', float(int(data[10])/10.0), source=device_id)
+        q.add('Voltage_L2', float(int(data[11])/10.0), source=device_id)
+        q.add('Voltage_L3', float(int(data[12])/10.0), source=device_id)
+        q.add('Amperage_L1', float(int(data[13])/10.0), source=device_id)
+        q.add('Amperage_L2', float(int(data[14])/10.0), source=device_id)
+        q.add('Amperage_L3', float(int(data[15])/10.0), source=device_id)
+        q.add('Total_Power', float(int(data[19])/10.0), source=device_id)
+        q.add('Cos_L1', float(int(data[20])/100.0), source=device_id)
+        q.add('Cos_L2', float(int(data[21])/100.0), source=device_id)
         try:
             q.add('Cos_L3', float(int(data[22])/100.0))
         except ValueError:
@@ -99,7 +101,7 @@ librato_api = librato.connect(username='cesar@petrolog.us',
                               api_key='80d56cc6ce41b3234fa6d900660161ccf6f8e523519d3d636df839f3e4b44830')
 
 # Create Mosquitto Client object
-mqttc = mosquitto.Mosquitto("Omnimeter_Liberato")
+mqttc = mosquitto.Mosquitto("Omnimeter_Liberato_test")
 
 # Assign event callbacks
 mqttc.on_message = on_message
